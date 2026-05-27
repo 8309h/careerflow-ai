@@ -1,0 +1,11 @@
+.page {
+  display: grid;
+  gap: 18px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.page p {
+  line-height: 1.75;
+  color: var(--muted);
+}

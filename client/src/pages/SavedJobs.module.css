@@ -1,0 +1,33 @@
+.page {
+  display: grid;
+  gap: 18px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.card {
+  background: var(--surface-alt);
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+}
+
+.card button {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--danger);
+  color: white;
+  cursor: pointer;
+}
+
+.error {
+  color: var(--danger);
+}
