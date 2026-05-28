@@ -18,11 +18,6 @@ const Navbar = () => {
       return (
             <header className={styles.navbar}>
                   <div className={styles.leftGroup}>
-                        <button className={styles.burger} aria-label="Toggle menu" onClick={() => setOpen((s) => !s)}>
-                              <span className={styles.burgerBar} />
-                              <span className={styles.burgerBar} />
-                              <span className={styles.burgerBar} />
-                        </button>
                         <div className={styles.brand} onClick={handleNavigateHome} role="button">
                               CareerFlow AI
                         </div>
@@ -66,8 +61,15 @@ const Navbar = () => {
                                     </NavLink>
                               </>
                         )}
-                        <button className={styles.themeButton} onClick={toggleTheme} type="button">
-                              {theme === 'light' ? 'Dark' : 'Light'}
+                        <button className={styles.themeButton} onClick={toggleTheme} type="button" aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
+                              <span className={styles.themeIcon}>{theme === 'light' ? '🌙' : '☀️'}</span>
+                              <span className={styles.themeText}>{theme === 'light' ? 'Dark' : 'Light'}</span>
+                        </button>
+
+                        <button className={`${styles.burger} ${open ? styles.burgerOpen : ''}`} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen((s) => !s)}>
+                              <span className={styles.burgerBar} />
+                              <span className={styles.burgerBar} />
+                              <span className={styles.burgerBar} />
                         </button>
 
                   </div>

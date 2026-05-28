@@ -47,14 +47,31 @@
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: 999px;
+  padding: 10px 14px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .themeButton:hover,
 .actionButton:hover {
   background: var(--surface-hover);
+}
+
+.themeIcon {
+  font-size: 1rem;
+}
+
+.themeText {
+  display: inline-block;
+}
+
+@media (max-width: 500px) {
+  .themeText {
+    display: none;
+  }
 }
 
 .welcome {
@@ -63,11 +80,25 @@
 
 /* Mobile: hide large nav links and show burger */
 .burger {
-  display: none;
-  background: transparent;
-  border: none;
+  display: none; /* hidden on desktop/tablet by default */
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
   padding: 8px;
   margin-right: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.burger:hover {
+  background: var(--surface-hover);
 }
 
 .burgerBar {
@@ -75,14 +106,26 @@
   width: 20px;
   height: 2px;
   background: var(--text);
-  margin: 3px 0;
-  transition: background 160ms ease;
+  border-radius: 999px;
+  transition: transform 160ms ease, opacity 160ms ease, background 160ms ease;
+}
+
+.burgerOpen .burgerBar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.burgerOpen .burgerBar:nth-child(2) {
+  opacity: 0;
+}
+
+.burgerOpen .burgerBar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .leftGroup {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .link {
@@ -116,8 +159,6 @@
 
   .burger {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .actions {

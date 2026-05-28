@@ -80,8 +80,22 @@
   font-size: 0.85rem;
 }
 
+@media (max-width: 900px) {
+  .page {
+    padding: 20px 16px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+}
+
 @media (max-width: 640px) {
   .page {
     padding: 18px 12px;
+  }
+
+  .card {
+    padding: 16px;
   }
 }

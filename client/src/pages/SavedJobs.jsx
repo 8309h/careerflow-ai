@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import { savedService } from '../services/savedService';
+import { applicationService } from '../services/applicationService';
 import styles from './SavedJobs.module.css';
 
 const SavedJobs = () => {
@@ -8,6 +10,8 @@ const SavedJobs = () => {
   const [savedJobs, setSavedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [appliedIds, setAppliedIds] = useState([]);
+  const navigate = useNavigate();
 
   const fetchSavedJobs = async () => {
     setError('');
@@ -37,6 +41,29 @@ const SavedJobs = () => {
     }
   };
 
+  const handleApplySaved = async (saved) => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    setError('');
+    try {
+      const response = await applicationService.applyForJob(saved.jobId, token);
+      const application = response?.data || response;
+      const applicationWithJob = {
+        ...application,
+        jobId: typeof application.jobId === 'object' ? application.jobId : { _id: saved.jobId, title: saved.title, company: saved.company, location: saved.location }
+      };
+
+      // notify other parts of the app (JobTracker)
+      window.dispatchEvent(new CustomEvent('applicationCreated', { detail: { application: applicationWithJob, job: applicationWithJob.jobId } }));
+
+      setAppliedIds((cur) => [...cur, saved._id]);
+    } catch (err) {
+      setError(err.message || 'Unable to apply for saved job');
+    }
+  };
+
   return (
     <section className={styles.page}>
       <h1>Saved Jobs</h1>
@@ -52,9 +79,14 @@ const SavedJobs = () => {
               <p>{job.company}</p>
               <p>Status: {job.status}</p>
               <p>{job.location || 'Remote'}</p>
-              <button type="button" onClick={() => handleRemove(job._id)}>
-                Remove
-              </button>
+              <div className={styles.actions}>
+                <button type="button" onClick={() => handleRemove(job._id)} className={styles.removeButton}>
+                  Remove
+                </button>
+                <button type="button" onClick={() => handleApplySaved(job)} className={styles.applyButton} disabled={appliedIds.includes(job._id)}>
+                  {appliedIds.includes(job._id) ? 'Applied' : 'Apply'}
+                </button>
+              </div>
             </article>
           ))}
         </div>

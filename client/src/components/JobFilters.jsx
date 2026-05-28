@@ -24,8 +24,15 @@ const JobFilters = ({ filters, onChange, onClear, categories = [], experienceLev
         {workModes.map((w) => <option key={w} value={w}>{w}</option>)}
       </select>
     </div>
+    <div className={styles.block}>
+      <label>Employment Type</label>
+      <select value={filters.employmentType} onChange={(e) => onChange('employmentType', e.target.value)}>
+        <option value="">Any</option>
+        {employmentTypes.map((type) => <option key={type} value={type}>{type}</option>)}
+      </select>
+    </div>
     <div className={styles.actions}>
-      <button onClick={onClear}>Clear</button>
+      <button type="button" onClick={onClear}>Clear filters</button>
     </div>
   </aside>
 );

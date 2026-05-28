@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [error, setError] = useState('');
 
   const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState({ category: '', experienceLevel: '', workMode: '' });
+  const [filters, setFilters] = useState({ category: '', experienceLevel: '', workMode: '', employmentType: '' });
   const [page, setPage] = useState(1);
   const limit = 10;
 
@@ -23,7 +23,16 @@ const Dashboard = () => {
     setLoading(true);
     setError('');
     try {
-      const params = { page: opts.page || page, limit, search: opts.search ?? search, category: opts.category ?? filters.category, location: opts.location, employmentType: opts.employmentType, experienceLevel: opts.experienceLevel ?? filters.experienceLevel };
+      const params = {
+        page: opts.page || page,
+        limit,
+        search: opts.search ?? search,
+        category: opts.category ?? filters.category,
+        location: opts.location,
+        workMode: opts.workMode ?? filters.workMode,
+        employmentType: opts.employmentType ?? filters.employmentType,
+        experienceLevel: opts.experienceLevel ?? filters.experienceLevel
+      };
       const res = await jobService.getJobs(params);
       setJobsData(res);
     } catch (err) {
@@ -53,15 +62,16 @@ const Dashboard = () => {
   }, [fetchJobs, search]);
 
   const handleClear = useCallback(() => {
-    setFilters({ category: '', experienceLevel: '', workMode: '' });
+    setFilters({ category: '', experienceLevel: '', workMode: '', employmentType: '' });
     setSearch('');
     setPage(1);
-    fetchJobs({ page: 1, search: '', category: '' });
+    fetchJobs({ page: 1, search: '', category: '', workMode: '', employmentType: '' });
   }, [fetchJobs]);
 
   const categories = useMemo(() => [...new Set(jobsData.jobs.map((j) => j.category))], [jobsData.jobs]);
   const experienceLevels = useMemo(() => [...new Set(jobsData.jobs.map((j) => j.experienceLevel))], [jobsData.jobs]);
   const workModes = useMemo(() => [...new Set(jobsData.jobs.map((j) => j.workMode))], [jobsData.jobs]);
+  const employmentTypes = useMemo(() => [...new Set(jobsData.jobs.map((j) => j.employmentType))], [jobsData.jobs]);
 
   return (
     <div className={styles.page}>
@@ -80,6 +90,7 @@ const Dashboard = () => {
           categories={categories}
           experienceLevels={experienceLevels}
           workModes={workModes}
+          employmentTypes={employmentTypes}
         />
         <main className={styles.main}>
           <SearchBar value={search} onChange={setSearch} />

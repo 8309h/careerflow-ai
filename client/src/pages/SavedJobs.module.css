@@ -18,14 +18,30 @@
   border: 1px solid var(--border);
 }
 
-.card button {
-  margin-top: 16px;
-  padding: 10px 14px;
-  border: none;
-  border-radius: 12px;
-  background: var(--danger);
-  color: white;
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  justify-content: flex-end;
+}
+
+.removeButton {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
   cursor: pointer;
+}
+
+.applyButton {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .error {
@@ -41,7 +57,7 @@
     padding: 14px;
     border-radius: 12px;
   }
-  .card button {
+  .actions button {
     width: 100%;
     padding: 12px;
   }
