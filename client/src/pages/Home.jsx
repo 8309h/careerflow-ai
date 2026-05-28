@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import AIToolsSection from '../components/AIToolsSection';
 import styles from './Home.module.css';
 
 const Home = () => (
@@ -10,6 +11,8 @@ const Home = () => (
         View Jobs
       </Link>
     </div>
+
+    <AIToolsSection />
 
     <footer className={styles.footer}>
       <div className={styles.footerTop}>

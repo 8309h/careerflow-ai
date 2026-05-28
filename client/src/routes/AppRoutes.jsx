@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Home from '../pages/Home';
 import About from '../pages/About';
@@ -7,6 +7,7 @@ import JobDetails from '../pages/JobDetails';
 import JobForm from '../pages/JobForm';
 import SavedJobs from '../pages/SavedJobs';
 import JobTracker from '../pages/JobTracker';
+import CoverLetterGenerator from '../pages/CoverLetterGenerator';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import NotFound from '../pages/NotFound';
@@ -14,7 +15,8 @@ import { useAuth } from '../hooks/useAuth';
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
-  return user ? children : <Navigate to="/login" replace />;
+  const location = useLocation();
+  return user ? children : <Navigate to="/login" replace state={{ from: location.pathname }} />;
 };
 
 const PublicRoute = ({ children }) => {
@@ -29,6 +31,7 @@ const AppRoutes = () => (
       <Route path="about" element={<About />} />
       <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="signup" element={<PublicRoute><Signup /></PublicRoute>} />
+      <Route path="ai/cover-letter" element={<CoverLetterGenerator />} />
       <Route path="jobs" element={<Dashboard />} />
       <Route path="jobs/new" element={<ProtectedRoute><JobForm /></ProtectedRoute>} />
       <Route path="jobs/:id" element={<JobDetails />} />

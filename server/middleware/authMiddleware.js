@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { createHttpError } from './errorMiddleware.js';
 
 const protect = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Not authorized' });
+    return next(createHttpError(401, 'Not authorized', 'Auth Error'));
   }
 
   const token = authHeader.split(' ')[1];
@@ -15,12 +16,16 @@ const protect = async (req, res, next) => {
     req.user = await User.findById(decoded.id).select('-password');
 
     if (!req.user) {
-      return res.status(401).json({ message: 'Token invalid' });
+      return next(createHttpError(401, 'Token invalid', 'Auth Error'));
     }
 
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Token failed' });
+    error.statusCode = 401;
+    error.context = 'Auth Error';
+    error.isOperational = true;
+    error.message = 'Token failed';
+    next(error);
   }
 };
 

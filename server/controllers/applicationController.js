@@ -1,48 +1,37 @@
 import * as applicationService from '../services/applicationService.js';
+import { asyncHandler, createHttpError } from '../middleware/errorMiddleware.js';
 
-export const getUserApplications = async (req, res, next) => {
-  try {
-    const applications = await applicationService.getApplicationsByUser(req.user.id);
-    res.json(applications);
-  } catch (error) {
-    next(error);
+export const getUserApplications = asyncHandler(async (req, res) => {
+  const applications = await applicationService.getApplicationsByUser(req.user.id);
+  res.json(applications);
+}, 'Application Tracker Error');
+
+export const applyForJob = asyncHandler(async (req, res) => {
+  const application = await applicationService.createApplication({
+    userId: req.user.id,
+    jobId: req.body.jobId
+  });
+  res.status(201).json(application);
+}, 'Application Tracker Error');
+
+export const updateApplication = asyncHandler(async (req, res) => {
+  const payload = {
+    applicationStatus: req.body.applicationStatus,
+    notes: req.body.notes,
+    interviewFeedback: req.body.interviewFeedback,
+    recruiterFeedback: req.body.recruiterFeedback,
+    nextSteps: req.body.nextSteps
+  };
+
+  const updated = await applicationService.updateApplication(
+    req.params.id,
+    req.user.id,
+    payload
+  );
+
+  if (!updated) {
+    throw createHttpError(404, 'Application not found', 'Application Tracker Error');
   }
-};
 
-export const applyForJob = async (req, res, next) => {
-  try {
-    const application = await applicationService.createApplication({
-      userId: req.user.id,
-      jobId: req.body.jobId
-    });
-    res.status(201).json(application);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const updateApplication = async (req, res, next) => {
-  try {
-    const payload = {
-      applicationStatus: req.body.applicationStatus,
-      notes: req.body.notes,
-      interviewFeedback: req.body.interviewFeedback,
-      recruiterFeedback: req.body.recruiterFeedback,
-      nextSteps: req.body.nextSteps
-    };
-
-    const updated = await applicationService.updateApplication(
-      req.params.id,
-      req.user.id,
-      payload
-    );
-
-    if (!updated) {
-      return res.status(404).json({ message: 'Application not found' });
-    }
-
-    res.json(updated);
-  } catch (error) {
-    next(error);
-  }
-};
+  res.json(updated);
+}, 'Application Tracker Error');

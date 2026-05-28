@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useForm } from '../hooks/useForm';
+import AuthForm from '../components/AuthForm';
 import styles from './AuthForm.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { login, googleLogin } = useAuth();
   const { values, handleChange } = useForm({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,7 +20,7 @@ const Login = () => {
 
     try {
       await login(values);
-      navigate('/jobs');
+      navigate(redirectTo);
     } catch (err) {
       setError(err.message || 'Login failed');
     } finally {
@@ -26,27 +28,47 @@ const Login = () => {
     }
   };
 
+  const handleGoogleSuccess = async (credential) => {
+    if (!credential) {
+      setError('Google login did not return a credential.');
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+
+    try {
+      await googleLogin(credential);
+      navigate(redirectTo);
+    } catch (err) {
+      setError(err.message || 'Google login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>Login</h1>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          {error && <p className={styles.error}>{error}</p>}
-          <label>
-            Email
-            <input name="email" type="email" value={values.email} onChange={handleChange} required />
-          </label>
-          <label>
-            Password
-            <input name="password" type="password" value={values.password} onChange={handleChange} required />
-          </label>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Logging in…' : 'Login'}
-          </button>
-        </form>
-      </main>
+      <AuthForm
+        title="Welcome back"
+        subtitle="Log in to save jobs, track applications, and manage your career workflow."
+        submitLabel="Login"
+        loadingLabel="Logging in..."
+        loading={loading}
+        error={error}
+        values={values}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onGoogleSuccess={handleGoogleSuccess}
+        onGoogleError={() => setError('Google login was cancelled or failed.')}
+        footerText="Don't have an account?"
+        footerLinkText="Sign Up"
+        footerLinkTo="/signup"
+        mode="login"
+      />
     </div>
   );
 };
 
 export default Login;
+  const redirectTo = location.state?.from || '/jobs';

@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useForm } from '../hooks/useForm';
+import AuthForm from '../components/AuthForm';
 import styles from './AuthForm.module.css';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { signup } = useAuth();
+  const { signup, googleLogin } = useAuth();
   const { values, handleChange } = useForm({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,29 +27,44 @@ const Signup = () => {
     }
   };
 
+  const handleGoogleSuccess = async (credential) => {
+    if (!credential) {
+      setError('Google signup did not return a credential.');
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+
+    try {
+      await googleLogin(credential);
+      navigate('/jobs');
+    } catch (err) {
+      setError(err.message || 'Google signup failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>Create account</h1>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          {error && <p className={styles.error}>{error}</p>}
-          <label>
-            Name
-            <input name="name" value={values.name} onChange={handleChange} required />
-          </label>
-          <label>
-            Email
-            <input name="email" type="email" value={values.email} onChange={handleChange} required />
-          </label>
-          <label>
-            Password
-            <input name="password" type="password" value={values.password} onChange={handleChange} required />
-          </label>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Signing up…' : 'Sign up'}
-          </button>
-        </form>
-      </main>
+      <AuthForm
+        title="Create your account"
+        subtitle="Start tracking roles, saved jobs, and application progress in one focused workspace."
+        submitLabel="Sign up"
+        loadingLabel="Signing up..."
+        loading={loading}
+        error={error}
+        values={values}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onGoogleSuccess={handleGoogleSuccess}
+        onGoogleError={() => setError('Google signup was cancelled or failed.')}
+        footerText="Already have an account?"
+        footerLinkText="Login"
+        footerLinkTo="/login"
+        mode="signup"
+      />
     </div>
   );
 };

@@ -68,10 +68,15 @@ const jobs = [
 ];
 
 const seedJobs = async () => {
-  const jobCount = await Job.countDocuments();
-  if (jobCount === 0) {
-    await Job.insertMany(jobs);
-    console.log('Seeded default jobs');
+  try {
+    const jobCount = await Job.countDocuments();
+    if (jobCount === 0) {
+      await Job.insertMany(jobs);
+      console.log('[Seed Jobs] Seeded default jobs');
+    }
+  } catch (error) {
+    error.context = 'Seed Jobs Error';
+    throw error;
   }
 };
 

@@ -6,16 +6,33 @@ import authRoutes from './routes/authRoutes.js';
 import jobRoutes from './routes/jobRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
 import savedRoutes from './routes/savedRoutes.js';
-import errorHandler from './middleware/errorHandler.js';
+import aiRoutes from './routes/aiRoutes.js';
+import errorMiddleware from './middleware/errorMiddleware.js';
 import seedJobs from './data/seedJobs.js';
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(async () => {
-  await seedJobs();
+process.on('unhandledRejection', (error) => {
+  console.error('[Unhandled Promise Rejection]', error);
 });
+
+process.on('uncaughtException', (error) => {
+  console.error('[Uncaught Exception]', error);
+  process.exit(1);
+});
+
+connectDB()
+  .then(async () => {
+    console.log('[MongoDB] Database connection established');
+    await seedJobs();
+    console.log('[Seed Jobs] Seed check completed');
+  })
+  .catch((error) => {
+    console.error('[MongoDB Startup Error]', error);
+    process.exit(1);
+  });
 
 app.use(
   cors({
@@ -32,8 +49,21 @@ app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/saved', savedRoutes);
+app.use('/api/ai', aiRoutes);
 
-app.use(errorHandler);
+app.use((req, res) => {
+  console.warn('[Route Not Found]', {
+    method: req.method,
+    path: req.originalUrl
+  });
+
+  res.status(404).json({
+    success: false,
+    message: 'Route not found'
+  });
+});
+
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
