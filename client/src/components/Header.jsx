@@ -13,7 +13,7 @@ const Header = () => {
       <nav className={styles.nav}>
         {user ? (
           <>
-            <span>Welcome, {user.user.name}</span>
+          <span>Welcome, {user?.user?.name}</span>
             <button className={styles.logoutButton} onClick={logout}>
               Logout
             </button>

@@ -31,3 +31,18 @@
 .error {
   color: var(--danger);
 }
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+  .card button {
+    width: 100%;
+    padding: 12px;
+  }
+}

@@ -1,0 +1,7 @@
+.filters{ width:260px; padding:12px; border-radius:12px; background:var(--surface); border:1px solid var(--border); }
+.block{ margin-bottom:12px; display:flex; flex-direction:column; }
+.block label{ font-weight:600; margin-bottom:6px; }
+.block select{ padding:8px 10px; border-radius:8px; border:1px solid var(--border); }
+.actions{ display:flex; justify-content:flex-end; }
+.actions button{ padding:8px 12px; border-radius:8px; background:transparent; border:1px solid var(--border); }
+@media (max-width:900px){ .filters{ width:100%; } }

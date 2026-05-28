@@ -48,3 +48,13 @@ button {
   color: white;
   cursor: pointer;
 }
+
+@media (max-width: 600px) {
+  .main {
+    padding: 18px;
+    border-radius: 14px;
+  }
+  input, textarea, select {
+    padding: 10px 12px;
+  }
+}

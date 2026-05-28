@@ -12,11 +12,6 @@ export const JobProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      if (!token) {
-        setJobs([]);
-        return;
-      }
-
       setLoading(true);
       setError(null);
 
@@ -34,7 +29,12 @@ export const JobProvider = ({ children }) => {
   }, [token]);
 
   const addJob = async (jobData) => {
-    const newJob = await jobService.createJob(jobData, token);
+    // Convert skills from comma-separated string to array
+    const payload = {
+      ...jobData,
+      skills: jobData.skills ? jobData.skills.split(',').map((s) => s.trim()).filter((s) => s) : []
+    };
+    const newJob = await jobService.createJob(payload, token);
     setJobs((current) => [newJob, ...current]);
     return newJob;
   };

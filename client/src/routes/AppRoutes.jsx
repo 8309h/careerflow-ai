@@ -6,6 +6,7 @@ import Dashboard from '../pages/Dashboard';
 import JobDetails from '../pages/JobDetails';
 import JobForm from '../pages/JobForm';
 import SavedJobs from '../pages/SavedJobs';
+import JobTracker from '../pages/JobTracker';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import NotFound from '../pages/NotFound';
@@ -28,9 +29,10 @@ const AppRoutes = () => (
       <Route path="about" element={<About />} />
       <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="signup" element={<PublicRoute><Signup /></PublicRoute>} />
-      <Route path="jobs" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="jobs" element={<Dashboard />} />
       <Route path="jobs/new" element={<ProtectedRoute><JobForm /></ProtectedRoute>} />
-      <Route path="jobs/:id" element={<ProtectedRoute><JobDetails /></ProtectedRoute>} />
+      <Route path="jobs/:id" element={<JobDetails />} />
+      <Route path="tracker" element={<ProtectedRoute><JobTracker /></ProtectedRoute>} />
       <Route path="saved" element={<ProtectedRoute><SavedJobs /></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Route>

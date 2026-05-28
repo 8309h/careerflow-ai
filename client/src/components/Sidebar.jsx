@@ -9,6 +9,9 @@ const Sidebar = () => (
         <Link to="/jobs/new">Add new job</Link>
       </li>
       <li>
+        <Link to="/tracker">Applied jobs</Link>
+      </li>
+      <li>
         <Link to="/">View dashboard</Link>
       </li>
     </ul>

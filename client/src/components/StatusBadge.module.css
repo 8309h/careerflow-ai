@@ -1,0 +1,31 @@
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.applied {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.interviewing {
+  background: #fff7ed;
+  color: #92400e;
+}
+
+.rejected {
+  background: #fff1f2;
+  color: #9f1239;
+}
+
+.offer {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.default {
+  background: var(--surface-alt);
+  color: var(--text);
+}

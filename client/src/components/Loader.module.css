@@ -19,3 +19,14 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 420px) {
+  .loaderWrapper {
+    padding: 20px 0;
+  }
+  .loader {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+}

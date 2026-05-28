@@ -12,3 +12,9 @@
   padding: 24px;
   flex: 1;
 }
+
+@media (max-width: 600px) {
+  .mainContent {
+    padding: 14px;
+  }
+}
