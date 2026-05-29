@@ -10,6 +10,9 @@ import JobTracker from '../pages/JobTracker';
 import CoverLetterGenerator from '../pages/CoverLetterGenerator';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import Profile from '../pages/Profile';
+import ForgotPassword from '../pages/ForgotPassword';
+import ResetPassword from '../pages/ResetPassword';
 import NotFound from '../pages/NotFound';
 import { useAuth } from '../hooks/useAuth';
 
@@ -37,6 +40,9 @@ const AppRoutes = () => (
       <Route path="jobs/:id" element={<JobDetails />} />
       <Route path="tracker" element={<ProtectedRoute><JobTracker /></ProtectedRoute>} />
       <Route path="saved" element={<ProtectedRoute><SavedJobs /></ProtectedRoute>} />
+      <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+      <Route path="reset-password" element={<PublicRoute><ResetPassword /></PublicRoute>} />
       <Route path="*" element={<NotFound />} />
     </Route>
   </Routes>

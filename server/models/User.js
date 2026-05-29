@@ -7,7 +7,22 @@ const userSchema = new mongoose.Schema(
     password: { type: String },
     avatar: { type: String, default: '' },
     authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
-    googleId: { type: String, default: '' }
+    googleId: { type: String, default: '' },
+
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user'
+    },
+
+    headline: { type: String, default: '' },
+    location: { type: String, default: '' },
+    bio: { type: String, default: '' },
+    resumeUrl: { type: String, default: '' },
+    resumeFileName: { type: String, default: '' },
+
+    resetPasswordToken: { type: String, default: '' },
+    resetPasswordExpires: { type: Date }
   },
   { timestamps: true }
 );

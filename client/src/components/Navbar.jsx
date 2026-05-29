@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { FiMoon, FiSun, FiChevronDown } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 import { useThemeContext } from '../context/ThemeContext';
 import UserMenu from './UserMenu';
@@ -19,8 +20,13 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useThemeContext();
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const menuRef = useRef(null);
 
-  const closeMenu = () => setOpen(false);
+  const closeMenu = () => {
+    setOpen(false);
+    setProfileOpen(false);
+  };
 
   const handleNavigateHome = () => {
     closeMenu();
@@ -29,9 +35,21 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
+    setProfileOpen(false);
     closeMenu();
     navigate('/');
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className={styles.navbar}>
@@ -56,7 +74,31 @@ const Navbar = () => {
 
       <div className={styles.actions}>
         {user ? (
-          <UserMenu user={user} onLogout={handleLogout} />
+          <div className={styles.userMenuContainer} ref={menuRef}>
+            <button
+              type="button"
+              className={styles.userToggle}
+              onClick={() => setProfileOpen((prev) => !prev)}
+              aria-expanded={profileOpen}
+            >
+              <UserMenu user={user} compact />
+              <FiChevronDown className={`${styles.chevron} ${profileOpen ? styles.chevronOpen : ''}`} />
+            </button>
+
+            {profileOpen && (
+              <div className={styles.profileDropdown}>
+                <NavLink to="/profile" className={styles.dropdownItem} onClick={() => setProfileOpen(false)}>
+                  Manage profile
+                </NavLink>
+                <NavLink to="/forgot-password" className={styles.dropdownItem} onClick={() => setProfileOpen(false)}>
+                  Forgot password
+                </NavLink>
+                <button type="button" className={styles.dropdownItem} onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <NavLink to="/login" className={({ isActive }) => (isActive ? styles.activeAction : styles.loginButton)}>
             Login
@@ -69,7 +111,7 @@ const Navbar = () => {
           type="button"
           aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
         >
-          {theme === 'light' ? 'Dark' : 'Light'}
+          {theme === 'light' ? <FiMoon /> : <FiSun />}
         </button>
 
         <button

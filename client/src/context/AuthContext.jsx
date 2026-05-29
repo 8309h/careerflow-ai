@@ -35,8 +35,12 @@ export const AuthProvider = ({ children }) => {
     setAuthState({ user: null, token: null });
   };
 
+  const updateUser = (user) => {
+    setAuthState((prev) => ({ ...prev, user }));
+  };
+
   return (
-    <AuthContext.Provider value={{ ...authState, login, signup, googleLogin, logout }}>
+    <AuthContext.Provider value={{ ...authState, login, signup, googleLogin, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

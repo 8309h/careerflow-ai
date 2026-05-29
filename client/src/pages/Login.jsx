@@ -12,6 +12,7 @@ const Login = () => {
   const { values, handleChange } = useForm({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const redirectTo = location.state?.from || '/jobs';
 
   const handleSubmit = async (event) => {
     event.preventDefault();

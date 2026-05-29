@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { FiUser } from 'react-icons/fi';
 import styles from './UserMenu.module.css';
 
 const getInitials = (name = '', email = '') => {
@@ -10,20 +12,22 @@ const getInitials = (name = '', email = '') => {
     .join('') || 'U';
 };
 
-const UserMenu = ({ user, onLogout }) => (
-  <div className={styles.userMenu}>
+const UserMenu = ({ user, compact = false }) => (
+  <div className={`${styles.userMenu} ${compact ? styles.compact : ''}`}>
     {user.avatar ? (
       <img className={styles.avatar} src={user.avatar} alt={user.name || user.email} />
     ) : (
-      <span className={styles.avatarFallback}>{getInitials(user.name, user.email)}</span>
+      <span className={styles.avatarFallback}>
+        <FiUser />
+      </span>
     )}
-    <div className={styles.identity}>
-      <span>{user.name}</span>
-      <small>{user.email}</small>
-    </div>
-    <button className={styles.logoutButton} type="button" onClick={onLogout}>
-      Logout
-    </button>
+
+    {!compact && (
+      <div className={styles.identity}>
+        <span>{user.name || user.email}</span>
+        <small>{user.email}</small>
+      </div>
+    )}
   </div>
 );
 

@@ -6,7 +6,6 @@ import JobFilters from '../components/JobFilters';
 import HorizontalJobCard from '../components/HorizontalJobCard';
 import Pagination from '../components/Pagination';
 import LoadingSkeleton from '../components/LoadingSkeleton';
-import AIToolsSection from '../components/AIToolsSection';
 import { jobService } from '../services/jobService';
 import styles from './Dashboard.module.css';
 
@@ -83,7 +82,7 @@ const Dashboard = () => {
           <p className={styles.description}>Search, filter and apply to jobs from your personal career dashboard.</p>
         </div>
       </div>
-      <AIToolsSection compact />
+      {/* <AIToolsSection compact /> */}
       <div className={styles.content}>
         <JobFilters
           filters={filters}

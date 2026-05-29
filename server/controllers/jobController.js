@@ -18,7 +18,7 @@ export const getJobs = asyncHandler(async (req, res) => {
 }, 'Job Fetch Error');
 
 export const getJobById = asyncHandler(async (req, res) => {
-  const job = await Job.findById(req.params.id);
+  const job = await jobService.getJobById(req.params.id);
 
   if (!job) {
     throw createHttpError(404, 'Job not found', 'Job Fetch Error');
@@ -33,11 +33,11 @@ export const createJob = asyncHandler(async (req, res) => {
 }, 'Job Create Error');
 
 export const updateJob = asyncHandler(async (req, res) => {
-  const job = await Job.findOneAndUpdate(
-    { _id: req.params.id, createdBy: req.user.id },
-    req.body,
-    { new: true }
-  );
+  const filter = req.user.role === 'admin'
+    ? { _id: req.params.id }
+    : { _id: req.params.id, createdBy: req.user.id };
+
+  const job = await Job.findOneAndUpdate(filter, req.body, { new: true });
 
   if (!job) {
     throw createHttpError(404, 'Job not found', 'Job Update Error');
@@ -47,7 +47,11 @@ export const updateJob = asyncHandler(async (req, res) => {
 }, 'Job Update Error');
 
 export const deleteJob = asyncHandler(async (req, res) => {
-  const job = await Job.findOneAndDelete({ _id: req.params.id, createdBy: req.user.id });
+  const filter = req.user.role === 'admin'
+    ? { _id: req.params.id }
+    : { _id: req.params.id, createdBy: req.user.id };
+
+  const job = await Job.findOneAndDelete(filter);
 
   if (!job) {
     throw createHttpError(404, 'Job not found', 'Job Delete Error');

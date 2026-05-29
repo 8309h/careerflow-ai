@@ -43,6 +43,14 @@
   white-space: nowrap;
 }
 
+.compact {
+  gap: 0;
+}
+
+.compact .identity {
+  display: none;
+}
+
 .identity span {
   color: var(--text);
   font-size: 0.9rem;
@@ -52,6 +60,17 @@
 .identity small {
   color: var(--muted);
   font-size: 0.76rem;
+}
+
+.profileLink {
+  margin-top: 4px;
+  color: var(--primary);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.profileLink:hover {
+  text-decoration: underline;
 }
 
 .logoutButton {
