@@ -7,6 +7,9 @@ import JobDetails from '../pages/JobDetails';
 import JobForm from '../pages/JobForm';
 import SavedJobs from '../pages/SavedJobs';
 import JobTracker from '../pages/JobTracker';
+import AIHub from '../pages/AIHub';
+import ATSChecker from '../pages/ATSChecker';
+import InterviewPrep from '../pages/InterviewPrep';
 import CoverLetterGenerator from '../pages/CoverLetterGenerator';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
@@ -34,7 +37,10 @@ const AppRoutes = () => (
       <Route path="about" element={<About />} />
       <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="signup" element={<PublicRoute><Signup /></PublicRoute>} />
+      <Route path="ai" element={<AIHub />} />
       <Route path="ai/cover-letter" element={<CoverLetterGenerator />} />
+      <Route path="ai/ats-checker" element={<ATSChecker />} />
+      <Route path="ai/interview-prep" element={<InterviewPrep />} />
       <Route path="jobs" element={<Dashboard />} />
       <Route path="jobs/new" element={<ProtectedRoute><JobForm /></ProtectedRoute>} />
       <Route path="jobs/:id" element={<JobDetails />} />

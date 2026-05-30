@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema(
     bio: { type: String, default: '' },
     resumeUrl: { type: String, default: '' },
     resumeFileName: { type: String, default: '' },
+    resumeUploadedAt: { type: Date },
 
     resetPasswordToken: { type: String, default: '' },
     resetPasswordExpires: { type: Date }

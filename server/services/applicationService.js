@@ -30,3 +30,7 @@ export const updateApplication = async (applicationId, userId, payload) => {
     { new: true }
   ).populate('jobId');
 };
+
+export const deleteApplication = async (applicationId, userId) => {
+  return Application.findOneAndDelete({ _id: applicationId, userId });
+};

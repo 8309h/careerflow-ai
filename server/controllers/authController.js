@@ -29,7 +29,8 @@ const serializeUser = (user) => ({
   location: user.location,
   bio: user.bio,
   resumeUrl: user.resumeUrl,
-  resumeFileName: user.resumeFileName
+  resumeFileName: user.resumeFileName,
+  resumeUploadedAt: user.resumeUploadedAt
 });
 
 const buildResetUrl = (token) => {
@@ -184,7 +185,31 @@ export const uploadResume = asyncHandler(async (req, res) => {
     req.user.id,
     {
       resumeUrl,
-      resumeFileName: req.file.originalname
+      resumeFileName: req.file.originalname,
+      resumeUploadedAt: new Date()
+    },
+    { new: true }
+  );
+
+  res.json({ user: serializeUser(updated) });
+}, 'Auth Error');
+
+export const deleteResume = asyncHandler(async (req, res) => {
+  if (!req.user.resumeUrl) {
+    throw createHttpError(400, 'No saved resume to delete', 'Auth Error');
+  }
+
+  const fileName = path.basename(req.user.resumeUrl);
+  const filePath = path.join(uploadsPath, fileName);
+
+  await fs.unlink(filePath).catch(() => null);
+
+  const updated = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      resumeUrl: '',
+      resumeFileName: '',
+      resumeUploadedAt: undefined
     },
     { new: true }
   );

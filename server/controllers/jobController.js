@@ -32,6 +32,11 @@ export const createJob = asyncHandler(async (req, res) => {
   res.status(201).json(job);
 }, 'Job Create Error');
 
+export const getExternalJobs = asyncHandler(async (req, res) => {
+  const jobs = await jobService.getExternalJobsByUser(req.user.id);
+  res.json(jobs);
+}, 'Job Fetch Error');
+
 export const updateJob = asyncHandler(async (req, res) => {
   const filter = req.user.role === 'admin'
     ? { _id: req.params.id }

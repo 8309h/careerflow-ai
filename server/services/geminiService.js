@@ -46,6 +46,7 @@ const extractText = (data) => {
   if (!Array.isArray(parts)) {
     return '';
   }
+  console.log("Parts",parts)
 
   return parts
     .map((part) => part.text)
@@ -115,6 +116,71 @@ export const generateCoverLetter = async ({ resumeText, jobDescription }) => {
     );
     serviceError.statusCode = error.response?.status || 502;
     serviceError.context = 'AI Cover Letter Error';
+    serviceError.isOperational = true;
+    serviceError.cause = error;
+    throw serviceError;
+  }
+};
+
+export const generateAtsAnalysis = async ({ prompt }) => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const model = process.env.GEMINI_MODEL || DEFAULT_MODEL;
+
+  if (!apiKey) {
+    const error = new Error('Gemini API key is not configured');
+    error.statusCode = 500;
+    error.context = 'AI ATS Error';
+    error.isOperational = true;
+    throw error;
+  }
+
+  try {
+    const response = await axios.post(
+      `${GEMINI_BASE_URL}/${model}:generateContent`,
+      {
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: prompt }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.2,
+          topP: 0.8,
+          maxOutputTokens: 5000
+        }
+      },
+      {
+        headers: {
+          'x-goog-api-key': apiKey
+        },
+        timeout: 30000
+      }
+    );
+
+    const resultText = extractText(response.data);
+    console.log("ATS gemini",response.data)
+
+    if (!resultText) {
+      const error = new Error('Gemini returned an empty ATS response');
+      error.statusCode = 502;
+      error.context = 'AI ATS Error';
+      error.isOperational = true;
+      throw error;
+    }
+
+    return resultText;
+  } catch (error) {
+    if (error.statusCode) {
+      throw error;
+    }
+
+    const geminiMessage = error.response?.data?.error?.message;
+    const serviceError = new Error(
+      geminiMessage || 'Unable to analyze resume right now. Please try again.'
+    );
+    serviceError.statusCode = error.response?.status || 502;
+    serviceError.context = 'AI ATS Error';
     serviceError.isOperational = true;
     serviceError.cause = error;
     throw serviceError;

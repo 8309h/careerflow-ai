@@ -1,18 +1,46 @@
 import Job from '../models/Job.js';
 import * as remoteOkService from './remoteOkService.js';
+import seedJobs, { jobs as seedJobsData } from '../data/seedJobs.js';
+
+const ensureSeedJobs = async () => {
+  try {
+    const count = await Job.countDocuments();
+    if (count === 0) {
+      await seedJobs();
+      return true;
+    }
+  } catch (error) {
+    console.error('[JobService] ensureSeedJobs failed:', error?.message || error);
+  }
+  return false;
+};
 
 export const getAllJobs = async () => {
   try {
     const remoteJobs = await remoteOkService.fetchRemoteOkJobs();
-    return remoteJobs;
+    if (Array.isArray(remoteJobs) && remoteJobs.length > 0) return remoteJobs;
+    // fall through to DB if remote returned empty
   } catch (remoteError) {
     console.error('[JobService] RemoteOK getAllJobs failed, using local DB fallback:', remoteError?.message || remoteError);
-
-    // OLD DB getAllJobs logic preserved for reference/fallback:
-    // return Job.find({}).sort({ postedDate: -1 });
-    return Job.find({}).sort({ postedDate: -1 });
   }
-};
+
+  // Try DB next
+  try {
+    const dbJobs = await Job.find({ createdBy: { $exists: false } }).sort({ postedDate: -1 });
+    if (Array.isArray(dbJobs) && dbJobs.length > 0) return dbJobs;
+    const seeded = await ensureSeedJobs();
+    if (seeded) {
+      return Job.find({ createdBy: { $exists: false } }).sort({ postedDate: -1 });
+    }
+  } catch (dbErr) {
+    console.error('[JobService] DB fallback failed:', dbErr?.message || dbErr);
+  }
+
+  // Finally, fall back to seeded jobs (in-memory)
+  console.warn('[JobService] Falling back to seeded jobs');
+  return seedJobsData;
+}
+
 
 export const getJobsPaginated = async ({ page = 1, limit = 10, search = '', filters = {} }) => {
   const start = (page - 1) * limit;
@@ -47,7 +75,7 @@ export const getJobsPaginated = async ({ page = 1, limit = 10, search = '', filt
     console.error('[JobService] RemoteOK integration failed, falling back to local DB query:', remoteError?.message || remoteError);
 
     const skip = (page - 1) * limit;
-    const query = {};
+    const query = { createdBy: { $exists: false } };
 
     if (search) {
       const rx = new RegExp(search, 'i');
@@ -76,10 +104,45 @@ export const getJobsPaginated = async ({ page = 1, limit = 10, search = '', filt
     //   Job.find(query).sort({ postedDate: -1 }).skip(skip).limit(Number(limit))
     // ]);
 
-    const [totalJobs, jobs] = await Promise.all([
+    let [totalJobs, jobs] = await Promise.all([
       Job.countDocuments(query),
       Job.find(query).sort({ postedDate: -1 }).skip(skip).limit(Number(limit))
     ]);
+
+    if (totalJobs === 0) {
+      const seeded = await ensureSeedJobs();
+      if (seeded) {
+        [totalJobs, jobs] = await Promise.all([
+          Job.countDocuments(query),
+          Job.find(query).sort({ postedDate: -1 }).skip(skip).limit(Number(limit))
+        ]);
+      }
+    }
+
+    if (totalJobs === 0) {
+      // Use seedJobs as final fallback (client-side pagination of seeded array)
+      const filtered = seedJobsData.filter((job) => {
+        const matchesSearch = search
+          ? [job.title, job.company, job.description, ...(job.skills || [])]
+              .join(' ')
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          : true;
+        const matchesCategory = filters.category ? job.category === filters.category : true;
+        const matchesLocation = filters.location ? job.location === filters.location : true;
+        const matchesEmployment = filters.employmentType ? job.employmentType === filters.employmentType : true;
+        const matchesExperience = filters.experienceLevel ? job.experienceLevel === filters.experienceLevel : true;
+        return matchesSearch && matchesCategory && matchesLocation && matchesEmployment && matchesExperience;
+      });
+
+      const pagedRemoteJobs = filtered.slice(start, start + limit);
+      return {
+        jobs: pagedRemoteJobs,
+        totalJobs: filtered.length,
+        totalPages: Math.max(1, Math.ceil(filtered.length / limit)),
+        currentPage: Number(page)
+      };
+    }
 
     const totalPages = Math.max(1, Math.ceil(totalJobs / limit));
 
@@ -99,6 +162,10 @@ export const getJobById = async (id) => {
   // OLD DB getJobById logic preserved for reference/fallback:
   // return Job.findById(id);
   return Job.findById(id);
+};
+
+export const getExternalJobsByUser = async (userId) => {
+  return Job.find({ createdBy: userId }).sort({ appliedDate: -1 });
 };
 
 export const createJob = async (payload) => {

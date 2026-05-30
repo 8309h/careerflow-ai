@@ -28,8 +28,12 @@ process.on('uncaughtException', (error) => {
 connectDB()
   .then(async () => {
     console.log('[MongoDB] Database connection established');
-    await seedJobs();
-    console.log('[Seed Jobs] Seed check completed');
+    try {
+      await seedJobs();
+      console.log('[Seed Jobs] Seed check completed');
+    } catch (err) {
+      console.error('[Seed Jobs Error] Seed process failed, continuing startup', err);
+    }
   })
   .catch((error) => {
     console.error('[MongoDB Startup Error]', error);

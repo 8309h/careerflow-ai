@@ -25,4 +25,16 @@
   border: none;
   padding: 8px 12px;
   border-radius: 8px;
+  margin-left: 3px;
+}
+
+.existingList {
+  margin: 0 0 6px 16px;
+  padding: 0;
+  color: var(--muted);
+}
+
+.existingItem {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
 }

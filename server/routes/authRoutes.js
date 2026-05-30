@@ -9,6 +9,7 @@ import {
   updateProfile,
   updatePassword,
   uploadResume,
+  deleteResume,
   forgotPassword,
   resetPassword
 } from '../controllers/authController.js';
@@ -24,5 +25,6 @@ router.get('/profile', protect, getProfile);
 router.put('/profile', protect, updateProfile);
 router.put('/profile/password', protect, updatePassword);
 router.post('/profile/resume', protect, resumeUpload, uploadResume);
+router.delete('/profile/resume', protect, deleteResume);
 
 export default router;

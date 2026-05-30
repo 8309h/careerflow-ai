@@ -29,4 +29,23 @@ const protect = async (req, res, next) => {
   }
 };
 
+export const optionalAuth = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return next();
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'careerflow-secret');
+    req.user = await User.findById(decoded.id).select('-password');
+  } catch {
+    // Ignore invalid or expired tokens for optional authentication.
+  }
+
+  next();
+};
+
 export default protect;

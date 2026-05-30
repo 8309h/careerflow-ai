@@ -2,70 +2,253 @@ import Job from '../models/Job.js';
 
 const jobs = [
   {
-    title: 'Senior Full Stack Developer',
-    company: 'Astra Labs',
-    logo: 'https://logo.clearbit.com/astralabs.com',
-    category: 'Full Stack Developer',
-    location: 'Remote',
-    workMode: 'Remote',
-    experienceLevel: 'Senior',
-    employmentType: 'Full-time',
-    salary: '$120k - $150k',
-    skills: ['React', 'Node.js', 'GraphQL', 'AWS'],
-    postedDate: new Date(),
-    description: 'Lead the development of a modern product platform and mentor the engineering team.',
-    responsibilities: ['Build web applications', 'Design API services', 'Collaborate with product'],
-    requirements: ['5+ years experience', 'Strong JavaScript skills', 'Cloud deployment experience']
+    "title": "Frontend Developer",
+    "company": "Infosys",
+    "location": "Pune",
+    "workMode": "Hybrid",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "5 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Applied",
+    "skills": ["React", "JavaScript", "HTML", "CSS"],
+    "description": "Develop responsive web applications using React.",
+    "notes": "Applied through LinkedIn"
   },
   {
-    title: 'Frontend Engineer',
-    company: 'Nova Systems',
-    logo: 'https://logo.clearbit.com/novasystems.com',
-    category: 'Frontend Developer',
-    location: 'San Francisco, CA',
-    workMode: 'Hybrid',
-    experienceLevel: 'Mid',
-    employmentType: 'Full-time',
-    salary: '$95k - $115k',
-    skills: ['React', 'TypeScript', 'CSS', 'Jest'],
-    postedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
-    description: 'Create polished UI experiences for an enterprise SaaS product.',
-    responsibilities: ['Implement responsive interfaces', 'Improve accessibility', 'Build reusable components'],
-    requirements: ['3+ years frontend experience', 'Strong React knowledge', 'UI/UX focus']
+    "title": "Backend Developer",
+    "company": "TCS",
+    "location": "Bangalore",
+    "workMode": "Onsite",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "6 LPA",
+    "source": "Naukri",
+    "applicationStatus": "Interview Scheduled",
+    "skills": ["Node.js", "Express", "MongoDB"],
+    "description": "Build scalable backend APIs.",
+    "notes": "HR call scheduled"
   },
   {
-    title: 'AI Engineer',
-    company: 'Pulse Intelligence',
-    logo: 'https://logo.clearbit.com/pulseintelligence.ai',
-    category: 'AI Engineer',
-    location: 'New York, NY',
-    workMode: 'Onsite',
-    experienceLevel: 'Mid',
-    employmentType: 'Full-time',
-    salary: '$110k - $140k',
-    skills: ['Python', 'Machine Learning', 'TensorFlow', 'NLP'],
-    postedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
-    description: 'Build AI-powered solutions that analyze unstructured data for enterprise customers.',
-    responsibilities: ['Train models', 'Deploy pipelines', 'Optimize AI workflows'],
-    requirements: ['ML experience', 'Data science background', 'Strong Python skills']
+    "title": "MERN Stack Developer",
+    "company": "Wipro",
+    "location": "Hyderabad",
+    "workMode": "Hybrid",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "8 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Applied",
+    "skills": ["React", "Node.js", "MongoDB"],
+    "description": "Full stack development using MERN stack."
   },
   {
-    title: 'MERN Stack Developer Intern',
-    company: 'LaunchHub',
-    logo: 'https://logo.clearbit.com/launchhub.io',
-    category: 'Internship',
-    location: 'Remote',
-    workMode: 'Remote',
-    experienceLevel: 'Internship',
-    employmentType: 'Internship',
-    salary: '$22/hr',
-    skills: ['JavaScript', 'MongoDB', 'Express', 'React'],
-    postedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12),
-    description: 'Join a startup team and help build customer-facing products with the MERN stack.',
-    responsibilities: ['Support development', 'Write tests', 'Participate in team planning'],
-    requirements: ['Currently enrolled in a degree program', 'Passion for web development']
+    "title": "Associate Software Engineer",
+    "company": "Accenture",
+    "location": "Mumbai",
+    "workMode": "Hybrid",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "6.5 LPA",
+    "source": "Company Website",
+    "applicationStatus": "Rejected",
+    "skills": ["JavaScript", "SQL"],
+    "description": "Software development and maintenance."
+  },
+  {
+    "title": "Software Engineer",
+    "company": "Capgemini",
+    "location": "Pune",
+    "workMode": "Remote",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "9 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Offer Received",
+    "skills": ["Node.js", "MongoDB", "AWS"],
+    "description": "Develop enterprise-grade applications."
+  },
+  {
+    "title": "React Developer",
+    "company": "Cognizant",
+    "location": "Chennai",
+    "workMode": "Hybrid",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "5.5 LPA",
+    "source": "Indeed",
+    "applicationStatus": "Applied",
+    "skills": ["React", "Redux", "JavaScript"]
+  },
+  {
+    "title": "Node.js Developer",
+    "company": "Tech Mahindra",
+    "location": "Pune",
+    "workMode": "Remote",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "10 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Interviewing",
+    "skills": ["Node.js", "Express", "MongoDB"]
+  },
+  {
+    "title": "Full Stack Developer",
+    "company": "HCL Technologies",
+    "location": "Noida",
+    "workMode": "Hybrid",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "11 LPA",
+    "source": "Naukri",
+    "applicationStatus": "Applied",
+    "skills": ["React", "Node.js", "MongoDB", "AWS"]
+  },
+  {
+    "title": "JavaScript Developer",
+    "company": "LTIMindtree",
+    "location": "Pune",
+    "workMode": "Remote",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "6 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Applied",
+    "skills": ["JavaScript", "React"]
+  },
+  {
+    "title": "Software Development Engineer",
+    "company": "Zoho",
+    "location": "Chennai",
+    "workMode": "Onsite",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "8 LPA",
+    "source": "Company Website",
+    "applicationStatus": "Interview Scheduled",
+    "skills": ["JavaScript", "Node.js", "SQL"]
+  },
+  {
+    "title": "Backend Engineer",
+    "company": "Razorpay",
+    "location": "Bangalore",
+    "workMode": "Hybrid",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "15 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Applied",
+    "skills": ["Node.js", "Redis", "MongoDB"]
+  },
+  {
+    "title": "Frontend Engineer",
+    "company": "PhonePe",
+    "location": "Bangalore",
+    "workMode": "Hybrid",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "14 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Interviewing",
+    "skills": ["React", "TypeScript"]
+  },
+  {
+    "title": "Software Engineer I",
+    "company": "Paytm",
+    "location": "Noida",
+    "workMode": "Hybrid",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "7 LPA",
+    "source": "Indeed",
+    "applicationStatus": "Applied",
+    "skills": ["Node.js", "MongoDB"]
+  },
+  {
+    "title": "MERN Developer",
+    "company": "Codelinear",
+    "location": "Remote",
+    "workMode": "Remote",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "8 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Applied",
+    "skills": ["React", "Node.js", "MongoDB"]
+  },
+  {
+    "title": "Associate Developer",
+    "company": "Persistent Systems",
+    "location": "Pune",
+    "workMode": "Hybrid",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "6 LPA",
+    "source": "Referral",
+    "applicationStatus": "Applied",
+    "skills": ["JavaScript", "React"]
+  },
+  {
+    "title": "Software Engineer",
+    "company": "Nagarro",
+    "location": "Remote",
+    "workMode": "Remote",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "12 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Offer Received",
+    "skills": ["Node.js", "AWS", "MongoDB"]
+  },
+  {
+    "title": "React Engineer",
+    "company": "BrowserStack",
+    "location": "Mumbai",
+    "workMode": "Remote",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "16 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Interviewing",
+    "skills": ["React", "TypeScript", "Redux"]
+  },
+  {
+    "title": "Full Stack Engineer",
+    "company": "Freshworks",
+    "location": "Chennai",
+    "workMode": "Hybrid",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "13 LPA",
+    "source": "Company Website",
+    "applicationStatus": "Applied",
+    "skills": ["React", "Node.js", "PostgreSQL"]
+  },
+  {
+    "title": "Associate Software Developer",
+    "company": "Oracle",
+    "location": "Bangalore",
+    "workMode": "Hybrid",
+    "experienceLevel": "Entry",
+    "employmentType": "Full-time",
+    "salary": "9 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Rejected",
+    "skills": ["JavaScript", "SQL"]
+  },
+  {
+    "title": "Software Engineer",
+    "company": "Adobe",
+    "location": "Noida",
+    "workMode": "Hybrid",
+    "experienceLevel": "Mid",
+    "employmentType": "Full-time",
+    "salary": "18 LPA",
+    "source": "LinkedIn",
+    "applicationStatus": "Interview Scheduled",
+    "skills": ["React", "Node.js", "AWS", "TypeScript"]
   }
-];
+]
 
 const seedJobs = async () => {
   try {
@@ -75,9 +258,10 @@ const seedJobs = async () => {
       console.log('[Seed Jobs] Seeded default jobs');
     }
   } catch (error) {
-    error.context = 'Seed Jobs Error';
-    throw error;
+    console.error('[Seed Jobs] Error seeding jobs:', error);
+    return;
   }
 };
 
 export default seedJobs;
+export { jobs };

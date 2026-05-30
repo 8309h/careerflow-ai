@@ -5,12 +5,13 @@ import StatusBadge from './StatusBadge';
 import NotesEditor from './NotesEditor';
 import styles from './ApplicationTrackerCard.module.css';
 
-const STATUS_OPTIONS = ['Applied', 'Interviewing', 'Rejected', 'Offer Received'];
+const STATUS_OPTIONS = ['Applied', 'Interview Scheduled', 'Interviewing', 'Rejected', 'Offer Received', 'Joined', 'Withdrawn'];
 
-const ApplicationTrackerCard = ({ application, onUpdated }) => {
+const ApplicationTrackerCard = ({ application, onUpdated, onDeleted }) => {
   const { token } = useAuth();
   const [local, setLocal] = useState(application);
   const [updating, setUpdating] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const handleStatus = async (e) => {
     const newStatus = e.target.value;
@@ -30,7 +31,10 @@ const ApplicationTrackerCard = ({ application, onUpdated }) => {
   const saveNotes = async (text) => {
     setUpdating(true);
     try {
-      const res = await applicationService.updateApplication(application._id, { notes: text }, token);
+      // Append the new note to existing notes instead of replacing.
+      const existing = local.notes ? String(local.notes).trim() : '';
+      const combined = existing ? `${existing}\n• ${text}` : `• ${text}`;
+      const res = await applicationService.updateApplication(application._id, { notes: combined }, token);
       const updated = res?.data || res;
       setLocal(updated);
       onUpdated && onUpdated(updated);
@@ -41,11 +45,38 @@ const ApplicationTrackerCard = ({ application, onUpdated }) => {
     }
   };
 
+  const buildNotes = (notes = '') => {
+    return String(notes)
+      .split(/\n|\r|\r\n|\u2022|•/)
+      .map((note) => note.trim())
+      .filter(Boolean);
+  };
+
+  const notes = buildNotes(local.notes);
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm('Delete this application record? This cannot be undone.');
+    if (!confirmed) return;
+    setDeleting(true);
+    try {
+      await applicationService.deleteApplication(application._id, token);
+      onDeleted && onDeleted(application._id);
+    } catch (err) {
+      window.alert(err.message || 'Unable to delete application.');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <article className={styles.card}>
       <div className={styles.left}>
         <div className={styles.logo}>
-          {local.jobId?.logo ? <img src={local.jobId.logo} alt={local.jobId.company} /> : <div className={styles.fallback}>{(local.jobId?.company||'')[0]}</div>}
+          {local.jobId?.logo ? (
+            <img src={local.jobId.logo} alt={local.jobId.company} />
+          ) : (
+            <div className={styles.fallback}>{(local.jobId?.company || '')[0]}</div>
+          )}
         </div>
         <div className={styles.titleBlock}>
           <h3>{local.jobId?.title}</h3>
@@ -62,6 +93,21 @@ const ApplicationTrackerCard = ({ application, onUpdated }) => {
           <span>{local.jobId?.salary}</span>
           <span>{new Date(local.jobId?.postedDate).toLocaleDateString()}</span>
         </div>
+        <div className={styles.metaRow}>
+          <span>Applied: {new Date(local.appliedDate).toLocaleDateString()}</span>
+          {local.interviewFeedback && <span>Interview feedback available</span>}
+          {local.recruiterFeedback && <span>Recruiter feedback available</span>}
+        </div>
+      
+        <NotesEditor initial={local.notes} onSave={saveNotes} placeholder="Add or update personal notes (press Enter for new lines)" />
+        {(local.recruiterFeedback || local.interviewFeedback || local.nextSteps) && (
+          <div className={styles.feedbackGroup}>
+            <strong>Feedback</strong>
+            {local.recruiterFeedback && <p><strong>Recruiter:</strong> {local.recruiterFeedback}</p>}
+            {local.interviewFeedback && <p><strong>Interview:</strong> {local.interviewFeedback}</p>}
+            {local.nextSteps && <p><strong>Next steps:</strong> {local.nextSteps}</p>}
+          </div>
+        )}
       </div>
 
       <div className={styles.right}>
@@ -75,10 +121,15 @@ const ApplicationTrackerCard = ({ application, onUpdated }) => {
         </div>
 
         <div className={styles.actions}>
-          <button className={styles.primary} onClick={() => window.open(`/jobs/${local.jobId?._id}`, '_blank')}>View details</button>
+          <button className={styles.primary} onClick={() => window.open(`/jobs/${local.jobId?._id}`, '_blank')}>
+            View details
+          </button>
+          <button type="button" className={styles.deleteButton} onClick={handleDelete}>
+            Delete
+          </button>
         </div>
 
-        <NotesEditor initial={local.notes} onSave={saveNotes} placeholder="Personal notes or next steps" />
+      
       </div>
     </article>
   );

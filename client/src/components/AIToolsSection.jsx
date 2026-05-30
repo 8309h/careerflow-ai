@@ -11,9 +11,10 @@ const tools = [
   },
   {
     title: 'ATS Resume Checker',
-    description: 'Scan your resume against job requirements and uncover optimization opportunities.',
-    status: 'Coming soon',
-    enabled: false
+    description: 'Analyze your resume for ATS compatibility and discover job-specific match gaps.',
+    status: 'Available',
+    to: '/ai/ats-checker',
+    enabled: true
   },
   {
     title: 'Interview Question Generator',

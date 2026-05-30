@@ -77,7 +77,7 @@ const About = () => (
         <nav className={styles.footerLinks}>
           <Link to="/">Home</Link>
           <Link to="/jobs">Jobs</Link>
-          <Link to="/ai/cover-letter">AI Tools</Link>
+          <Link to="/ai">AI Tools</Link>
           <Link to="/tracker">Track Applied Jobs</Link>
         </nav>
       </div>

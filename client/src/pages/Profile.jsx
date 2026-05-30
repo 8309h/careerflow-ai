@@ -77,13 +77,19 @@ const Profile = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      setError('Please upload your resume as a PDF file.');
+      event.target.value = '';
+      return;
+    }
+
     setError('');
     setMessage('');
     setResumeLoading(true);
 
     try {
       const formData = new FormData();
-      formData.append('resume', file);
+      formData.append('resumePdf', file);
       const response = await authService.uploadResume(formData, token);
       updateUser(response.user);
       setMessage('Resume uploaded successfully.');
@@ -92,6 +98,22 @@ const Profile = () => {
     } finally {
       setResumeLoading(false);
       event.target.value = '';
+    }
+  };
+
+  const handleResumeDelete = async () => {
+    setError('');
+    setMessage('');
+    setResumeLoading(true);
+
+    try {
+      const response = await authService.deleteResume(token);
+      updateUser(response.user);
+      setMessage('Resume removed successfully.');
+    } catch (err) {
+      setError(err.message || 'Unable to remove resume.');
+    } finally {
+      setResumeLoading(false);
     }
   };
 
@@ -162,18 +184,32 @@ const Profile = () => {
           <div>
             <p className={styles.resumeLabel}>Current resume</p>
             {user.resumeUrl ? (
-              <a className={styles.resumeLink} href={user.resumeUrl} target="_blank" rel="noreferrer">
-                {user.resumeFileName || 'View uploaded resume'}
-              </a>
+              <>
+                <a className={styles.resumeLink} href={user.resumeUrl} target="_blank" rel="noreferrer">
+                  {user.resumeFileName || 'View uploaded resume'}
+                </a>
+                {user.resumeUploadedAt && (
+                  <p className={styles.mutedText}>
+                    Uploaded {new Date(user.resumeUploadedAt).toLocaleDateString()} at {new Date(user.resumeUploadedAt).toLocaleTimeString()}
+                  </p>
+                )}
+              </>
             ) : (
               <p className={styles.mutedText}>No resume uploaded yet.</p>
             )}
           </div>
 
-          <label className={styles.uploadButton}>
-            {resumeLoading ? 'Uploading…' : 'Upload new resume'}
-            <input type="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={handleResumeUpload} disabled={resumeLoading} />
-          </label>
+          <div className={styles.resumeActions}>
+            <label className={styles.uploadButton}>
+              {resumeLoading ? 'Uploading…' : 'Upload new resume'}
+              <input type="file" accept="application/pdf" onChange={handleResumeUpload} disabled={resumeLoading} />
+            </label>
+            {user.resumeUrl && (
+              <button type="button" className={styles.removeResume} onClick={handleResumeDelete} disabled={resumeLoading}>
+                {resumeLoading ? 'Processing…' : 'Remove resume'}
+              </button>
+            )}
+          </div>
         </div>
       </section>
 

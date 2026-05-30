@@ -35,3 +35,13 @@ export const updateApplication = asyncHandler(async (req, res) => {
 
   res.json(updated);
 }, 'Application Tracker Error');
+
+export const deleteApplication = asyncHandler(async (req, res) => {
+  const deleted = await applicationService.deleteApplication(req.params.id, req.user.id);
+
+  if (!deleted) {
+    throw createHttpError(404, 'Application not found', 'Application Tracker Error');
+  }
+
+  res.json({ message: 'Application removed' });
+}, 'Application Tracker Error');

@@ -5,12 +5,25 @@ const jobSchema = new mongoose.Schema(
     title: { type: String, required: true },
     company: { type: String, required: true },
     logo: { type: String, default: '' },
-    category: { type: String, required: true },
+    category: { type: String, default: '' },
     location: { type: String, default: 'Remote' },
     workMode: { type: String, enum: ['Remote', 'Onsite', 'Hybrid'], default: 'Remote' },
-    experienceLevel: { type: String, enum: ['Internship', 'Junior', 'Mid', 'Senior', 'Lead'], default: 'Mid' },
+    experienceLevel: { type: String, enum: ['Internship', 'Entry', 'Junior', 'Mid', 'Senior', 'Lead'], default: 'Mid' },
     employmentType: { type: String, enum: ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship'], default: 'Full-time' },
     salary: { type: String, default: 'Competitive' },
+    source: {
+      type: String,
+      enum: ['LinkedIn', 'Naukri', 'Indeed', 'Company Website', 'Referral', 'Other'],
+      default: 'Other'
+    },
+    jobUrl: { type: String, default: '' },
+    appliedDate: { type: Date, default: Date.now },
+    applicationStatus: {
+      type: String,
+      enum: ['Applied', 'Interview Scheduled', 'Interviewing', 'Rejected', 'Offer Received', 'Joined', 'Withdrawn'],
+      default: 'Applied'
+    },
+    notes: { type: String, default: '' },
     skills: { type: [String], default: [] },
     postedDate: { type: Date, default: Date.now },
     description: { type: String, default: '' },

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
 import { useAuth } from '../hooks/useAuth';
 import { jobService } from '../services/jobService';
 import { savedService } from '../services/savedService';
@@ -97,7 +96,7 @@ const JobDetails = () => {
   return (
     <div className={styles.page}>
       <div className={styles.content}>
-        <Sidebar />
+       
         <main className={styles.main}>
           <button className={styles.backButton} onClick={() => navigate('/jobs')}>
             Back to jobs
