@@ -82,7 +82,6 @@ const Dashboard = () => {
           <p className={styles.description}>Search, filter and apply to jobs from your personal career dashboard.</p>
         </div>
       </div>
-      {/* <AIToolsSection compact /> */}
       <div className={styles.content}>
         <JobFilters
           filters={filters}
