@@ -1,44 +1,5 @@
 # CareerFlow AI
 
-<div align="center">
-
-![CareerFlow AI](https://img.shields.io/badge/CareerFlow%20AI-v1.0.0-blue?style=for-the-badge&logo=rocket)
-[![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-13AA52?style=flat-square&logo=mongodb)](https://www.mongodb.com/cloud/atlas)
-[![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?style=flat-square&logo=express)](https://expressjs.com/)
-[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-AI%20API-4285F4?style=flat-square&logo=google)](https://ai.google.dev/)
-
-**An Intelligent Job Application & Career Management Platform Powered by AI**
-
-[🚀 Live Demo](#live-demo) • [📖 Documentation](#table-of-contents) • [🤝 Contributing](#contributing) • [👤 Author](#about-author)
-
-[View on GitHub](https://github.com/8309h/careerflow-ai) | [Report Bug](https://github.com/8309h/careerflow-ai/issues) | [Request Feature](https://github.com/8309h/careerflow-ai/issues)
-
-</div>
-
----
-
-## 📋 Table of Contents
-
-- [Live Demo](#live-demo)
-- [Project Overview](#project-overview)
-- [Key Features](#key-features)
-- [Screenshots](#screenshots)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
-- [Local Development Setup](#local-development-setup)
-- [API Documentation](#api-documentation)
-- [Deployment Guide](#deployment-guide)
-- [Future Roadmap](#future-roadmap)
-- [Contributing](#contributing)
-- [About Author](#about-author)
-- [License](#license)
-
----
-
 ## 🚀 Live Demo
 
 | Platform | URL |
@@ -142,28 +103,7 @@ Job hunting is overwhelming. Applicants face multiple challenges:
 - 🎬 Mock interview scenario building
 - 📝 Answer suggestions with best practices
 
-### 📄 Resume Management
-- ✅ Upload and store resume (PDF/DOCX)
-- ✅ Secure resume storage with encryption
-- ✅ Reusable across all AI tools
-- ✅ Resume version history
-- ✅ Quick access from applications
-
 ---
-
-## 📸 Screenshots
-
-| Section | Preview |
-|---------|---------|
-| **Dashboard** | ![Dashboard](https://via.placeholder.com/500x300?text=Dashboard) |
-| **Jobs Marketplace** | ![Jobs Page](https://via.placeholder.com/500x300?text=Jobs+Page) |
-| **ATS Resume Checker** | ![ATS Checker](https://via.placeholder.com/500x300?text=ATS+Checker) |
-| **AI Cover Letter Generator** | ![Cover Letter](https://via.placeholder.com/500x300?text=Cover+Letter+Generator) |
-| **Interview Preparation** | ![Interview Prep](https://via.placeholder.com/500x300?text=Interview+Preparation) |
-| **Application Tracker** | ![Track Applications](https://via.placeholder.com/500x300?text=Track+Applications) |
-
----
-
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -214,22 +154,22 @@ Job hunting is overwhelming. Applicants face multiple challenges:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     CLIENT LAYER                             │
+│                     CLIENT LAYER                            │
 │              (React.js + Vite + Context API)                │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │ UI Components | Pages | Services | Authentication    │  │
-│  └──────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │ UI Components | Pages | Services | Authentication    │   │
+│  └──────────────────────────────────────────────────────┘   │
 └────────────────────────────┬────────────────────────────────┘
                              │ HTTPS/REST API
                              │ Axios
                              ↓
 ┌─────────────────────────────────────────────────────────────┐
-│                  API GATEWAY LAYER                           │
+│                  API GATEWAY LAYER                          │
 │          (Express.js + Node.js on Render)                   │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │ Routes | Controllers | Middleware | Error Handler   │  │
-│  │ JWT Auth | Google OAuth | CORS                      │  │
-│  └──────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │ Routes | Controllers | Middleware | Error Handler    │   │
+│  │ JWT Auth | Google OAuth | CORS                       │   │
+│  └──────────────────────────────────────────────────────┘   │
 └────────────────────────────┬────────────────────────────────┘
                              │
                 ┌────────────┼────────────┐
@@ -250,27 +190,27 @@ EXTERNAL SERVICES:
 ### Data Flow
 
 ```
-User Login
-    ↓
-JWT Token Generation / Google OAuth
-    ↓
-Access Protected Resources
-    ↓
-┌─────────────────────────┐
-│  Job Management         │
-│  Application Tracking   │
-│  Resume Management      │
-└──────────┬──────────────┘
-           ↓
-    ┌──────────────────┐
-    │  AI Services     │
-    ├──────────────────┤
-    │ • Cover Letter   │
-    │ • ATS Checker    │
-    │ • Interview Prep │
-    └────────┬─────────┘
+         User Login
              ↓
-      Gemini API
+      JWT Token Generation / Google OAuth
+             ↓
+      Access Protected Resources
+             ↓
+      ┌─────────────────────────┐
+      │  Job Management         │
+      │  Application Tracking   │
+      │  Resume Management      │
+      └──────────┬──────────────┘
+                 ↓
+         ┌──────────────────┐
+         │  AI Services     │
+         ├──────────────────┤
+         │ • Cover Letter   │
+         │ • ATS Checker    │
+         │ • Interview Prep │
+         └────────┬─────────┘
+                  ↓
+            Gemini API
 ```
 
 ---
@@ -546,25 +486,6 @@ npm run dev
 
 # The app will be available at http://localhost:5173
 ```
-
-### Step 4: Verify Installation
-
-- Backend should be running on `http://localhost:5000`
-- Frontend should be running on `http://localhost:5173`
-- Check browser console for errors
-- Check backend console for connection status
-
-### Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| MongoDB Connection Error | Verify MONGO_URI in .env, ensure MongoDB Atlas IP whitelist includes your IP |
-| Port Already in Use | Change PORT in .env or kill process using the port |
-| Google OAuth Error | Verify GOOGLE_CLIENT_ID and GOOGLE_REDIRECT_URI match Google Cloud Console |
-| CORS Error | Ensure FRONTEND_URL matches the frontend URL in backend .env |
-| Gemini API Error | Check GEMINI_API_KEY validity and API quota in Google Cloud Console |
-
----
 
 ## 📡 API Documentation
 
@@ -867,58 +788,6 @@ Response (200):
 
 ---
 
-## 🌐 Deployment Guide
-
-### Prerequisites
-- GitHub account with repository
-- MongoDB Atlas account with database
-- Google Cloud account for OAuth & Gemini API
-- Render account for backend hosting
-- Vercel account for frontend hosting
-
-### Step 1: MongoDB Atlas Setup
-
-1. Create account at [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
-2. Create a new cluster
-3. Set up database access:
-   - Create a user with strong password
-   - Note the connection string
-4. Configure network access:
-   - Add your Render server IP to whitelist
-   - Or allow all IPs (0.0.0.0/0) for development
-5. Create database "careerflow-ai"
-
-### Step 2: Google Cloud Setup
-
-#### OAuth Configuration
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create new project
-3. Navigate to "APIs & Services" → "Credentials"
-4. Create OAuth 2.0 Client ID:
-   - Application type: Web application
-   - Authorized redirect URIs:
-     - `https://yourdomain.com/api/auth/google/callback` (production)
-     - `http://localhost:5000/api/auth/google/callback` (development)
-5. Save Client ID and Client Secret
-
-#### Gemini API Key
-1. In Google Cloud Console, go to "APIs & Services" → "Library"
-2. Search for "Generative Language API"
-3. Enable the API
-4. Go to "Credentials" → "Create Credentials" → "API Key"
-5. Copy the API key
-
-### Step 3: Backend Deployment (Render)
-
-1. Go to [render.com](https://render.com/)
-2. Sign up and connect GitHub
-3. Create new Web Service:
-   - Repository: `8309h/careerflow-ai`
-   - Root Directory: `server`
-   - Runtime: Node
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-
 4. Add Environment Variables:
    ```
    PORT=5000
@@ -931,17 +800,6 @@ Response (200):
    FRONTEND_URL=https://careerflow-ai-sigma.vercel.app
    GEMINI_API_KEY=<from Google Cloud>
    ```
-
-5. Deploy
-
-### Step 4: Frontend Deployment (Vercel)
-
-1. Go to [vercel.com](https://vercel.com/)
-2. Sign up and connect GitHub
-3. Create new project:
-   - Repository: `8309h/careerflow-ai`
-   - Framework Preset: Vite
-   - Root Directory: `client`
 
 4. Add Environment Variables:
    ```
@@ -959,14 +817,6 @@ Response (200):
 | **Backend** | https://careerflow-ai-jhgm.onrender.com |
 | **API Docs** | https://careerflow-ai-jhgm.onrender.com/api/docs |
 | **GitHub** | https://github.com/8309h/careerflow-ai |
-
-### Monitoring & Maintenance
-
-- **Backend Logs**: View in Render dashboard
-- **Frontend Errors**: Sentry integration (optional)
-- **Database**: Monitor in MongoDB Atlas
-- **API Usage**: Check Google Cloud Console for quota
-- **SSL Certificate**: Automatically managed by Render and Vercel
 
 ---
 
@@ -1005,21 +855,6 @@ Response (200):
 - [ ] Discussion forums
 - [ ] Case study sharing
 - [ ] Company reviews integration
-
-### Phase 7: Mobile Application
-- [ ] React Native mobile app
-- [ ] Offline functionality
-- [ ] Push notifications
-- [ ] Biometric authentication
-- [ ] Responsive mobile UI
-
-### Technical Improvements
-- [ ] TypeScript migration for type safety
-- [ ] GraphQL API for optimized data fetching
-- [ ] Redis caching for performance
-- [ ] Microservices architecture
-- [ ] Kubernetes deployment
-- [ ] CI/CD pipeline automation
 
 ---
 
@@ -1091,8 +926,6 @@ Associate Software Engineer
 
 ### Connect
 - **GitHub**: [@8309h](https://github.com/8309h)
-- **LinkedIn**: [Harshal Wagh](https://linkedin.com/in/harshal-wagh)
-- **Email**: harshal@example.com
 
 ---
 
@@ -1105,8 +938,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ Modification
 - ✅ Distribution
 - ✅ Private use
-- ❌ Liability
-- ❌ Warranty
 
 ---
 
@@ -1119,13 +950,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Jooble & RemoteOK** for job listings
 
 ---
-
-## 📞 Support
-
-### Getting Help
-- 📖 [Documentation](https://github.com/8309h/careerflow-ai#table-of-contents)
-- 🐛 [Report Issues](https://github.com/8309h/careerflow-ai/issues)
-- 💬 [Discussions](https://github.com/8309h/careerflow-ai/discussions)
 
 ### Resources
 - [React Documentation](https://react.dev)
