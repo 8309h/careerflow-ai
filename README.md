@@ -154,7 +154,7 @@ Job hunting is overwhelming. Applicants face multiple challenges:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      CLIENT LAYER                            │
+│                      CLIENT LAYER                           │
 │               React.js + Vite + Context API                 │
 │                                                             │
 │  UI Components | Pages | Services | Authentication          │
@@ -168,10 +168,10 @@ Job hunting is overwhelming. Applicants face multiple challenges:
 │                    BACKEND / API LAYER                      │
 │                    Node.js + Express.js                     │
 │                                                             │
-│  Routes → Middleware → Controllers → Services              │
+│  Routes → Middleware → Controllers → Services               │
 │                                                             │
-│  JWT Authentication | Google OAuth | CORS                  │
-│  Validation | Error Handling | Business Logic              │
+│  JWT Authentication | Google OAuth | CORS                   │
+│  Validation | Error Handling | Business Logic               │
 └──────────────┬───────────────┬───────────────┬──────────────┘
                │               │               │
                ↓               ↓               ↓
