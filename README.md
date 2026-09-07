@@ -154,37 +154,44 @@ Job hunting is overwhelming. Applicants face multiple challenges:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     CLIENT LAYER                            │
-│              (React.js + Vite + Context API)                │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ UI Components | Pages | Services | Authentication    │   │
-│  └──────────────────────────────────────────────────────┘   │
-└────────────────────────────┬────────────────────────────────┘
-                             │ HTTPS/REST API
-                             │ Axios
-                             ↓
-┌─────────────────────────────────────────────────────────────┐
-│                  API GATEWAY LAYER                          │
-│          (Express.js + Node.js on Render)                   │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ Routes | Controllers | Middleware | Error Handler    │   │
-│  │ JWT Auth | Google OAuth | CORS                       │   │
-│  └──────────────────────────────────────────────────────┘   │
+│                      CLIENT LAYER                            │
+│               React.js + Vite + Context API                 │
+│                                                             │
+│  UI Components | Pages | Services | Authentication          │
 └────────────────────────────┬────────────────────────────────┘
                              │
-                ┌────────────┼────────────┐
-                ↓            ↓            ↓
-        ┌──────────┐  ┌──────────┐  ┌──────────┐
-        │ MongoDB  │  │ Gemini   │  │ Storage  │
-        │  Atlas   │  │   API    │  │ (Resume) │
-        │          │  │ (AI)     │  │          │
-        └──────────┘  └──────────┘  └──────────┘
+                         HTTPS / REST
+                             │
+                           Axios
+                             ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    BACKEND / API LAYER                      │
+│                    Node.js + Express.js                     │
+│                                                             │
+│  Routes → Middleware → Controllers → Services              │
+│                                                             │
+│  JWT Authentication | Google OAuth | CORS                  │
+│  Validation | Error Handling | Business Logic              │
+└──────────────┬───────────────┬───────────────┬──────────────┘
+               │               │               │
+               ↓               ↓               ↓
+        ┌────────────┐  ┌────────────┐  ┌──────────────┐
+        │ MongoDB    │  │ Gemini API │  │ Resume/File  │
+        │ Atlas      │  │            │  │ Storage      │
+        │            │  │ AI Features│  │              │
+        └────────────┘  └────────────┘  └──────────────┘
+               │
+               │
+               ↓
+       ┌──────────────────────┐
+       │   EXTERNAL JOB APIs  │
+       │                      │
+       │ Jooble API           │
+       │ RemoteOK API         │
+       └──────────────────────┘
 
-EXTERNAL SERVICES:
-├─ Google OAuth (Authentication)
-├─ Jooble API (Job Listings)
-├─ RemoteOK API (Remote Jobs)
-└─ Google Gemini API (AI Features)
+       AUTHENTICATION
+       └── Google OAuth
 ```
 
 ### Data Flow
